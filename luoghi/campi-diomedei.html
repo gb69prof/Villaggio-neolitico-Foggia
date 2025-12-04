@@ -4,468 +4,178 @@
   <meta charset="UTF-8" />
   <title>Campi Diomedei – Villaggio neolitico | Foggia Tour Virtuale</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <meta
     name="description"
-    content="Villaggio neolitico dei Campi Diomedei (ex Ippodromo): uno dei più importanti insediamenti trincerati del Tavoliere nel VI millennio a.C."
+    content="Villaggio neolitico dei Campi Diomedei di Foggia: uno dei più importanti insediamenti trincerati del Tavoliere nel VI millennio a.C."
   />
 
-  <!-- CSS principale del sito -->
   <link rel="stylesheet" href="../assets/css/style.css" />
 
-  <!-- Leaflet per la mini-mappa locale -->
+  <!-- Leaflet -->
   <link
     rel="stylesheet"
     href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
     crossorigin=""
   />
   <script
     src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
     crossorigin=""
   ></script>
 
   <style>
-    /* Piccole rifiniture locali: il resto lo prende dal CSS globale */
-    .luogo-hero {
-      display: grid;
-      gap: 1.5rem;
-      align-items: center;
-    }
-
-    @media (min-width: 768px) {
-      .luogo-hero {
-        grid-template-columns: 1.4fr 1fr;
-      }
-    }
-
-    .badge-categoria {
-      display: inline-block;
-      padding: 0.25rem 0.75rem;
-      border-radius: 999px;
-      font-size: 0.85rem;
-      background: #16324f;
-      color: #fff;
-      letter-spacing: 0.03em;
-      text-transform: uppercase;
-    }
-
-    .hero-image {
-      border-radius: 1rem;
-      overflow: hidden;
-    }
-
-    .hero-image img {
-      width: 100%;
-      height: auto;
-      display: block;
-      object-fit: cover;
-    }
-
-    .section-title {
-      margin-top: 2.5rem;
-      margin-bottom: 0.75rem;
-    }
-
-    .two-cols {
-      display: grid;
-      gap: 1.5rem;
-    }
-
-    @media (min-width: 900px) {
-      .two-cols {
-        grid-template-columns: 1.4fr 1.1fr;
-      }
-    }
-
-    details summary {
-      cursor: pointer;
-      font-weight: 600;
-      padding: 0.5rem 0;
-    }
-
-    details {
-      border-bottom: 1px solid #e0e0e0;
-      padding-bottom: 0.5rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .media-grid {
-      display: grid;
-      gap: 1rem;
-    }
-
-    @media (min-width: 900px) {
-      .media-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    .media-frame {
-      border-radius: 0.75rem;
-      overflow: hidden;
-      aspect-ratio: 16 / 9;
-      background: #000;
-    }
-
-    .media-frame iframe {
-      width: 100%;
-      height: 100%;
-      border: 0;
-    }
-
-    .gallery-grid {
-      display: grid;
-      gap: 0.75rem;
-    }
-
-    @media (min-width: 900px) {
-      .gallery-grid {
-        grid-template-columns: repeat(4, 1fr);
-      }
-    }
-
-    .gallery-grid figure {
-      border-radius: 0.75rem;
-      overflow: hidden;
-      margin: 0;
-      background: #f3f3f3;
-    }
-
-    .gallery-grid img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    .gallery-grid figcaption {
-      font-size: 0.8rem;
-      padding: 0.3rem 0.5rem;
-    }
-
-    #map-campi {
-      width: 100%;
-      height: 280px;
-      border-radius: 0.75rem;
-      margin-top: 0.75rem;
-    }
-
-    .tips-box {
-      border-radius: 0.75rem;
-      padding: 1rem 1.25rem;
-      background: #fff9e5;
-      border: 1px solid #f3dfaa;
-      font-size: 0.95rem;
-    }
-
-    .chatbot-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.7rem 1.1rem;
-      border-radius: 999px;
-      border: none;
-      background: #145c9e;
-      color: #fff;
-      font-weight: 600;
-      text-decoration: none;
-      margin-top: 0.5rem;
-    }
-
-    .chatbot-btn span.icon {
-      font-size: 1.1rem;
-    }
+    .luogo-hero { display: grid; gap: 1.5rem; align-items: center; }
+    @media (min-width: 768px) { .luogo-hero { grid-template-columns: 1.4fr 1fr; } }
+    .badge-categoria { padding: 0.25rem 0.75rem; border-radius: 999px; background: #16324f; color: #fff; }
+    .hero-image img { width: 100%; border-radius: 1rem; object-fit: cover; }
+    .section-title { margin-top: 2.5rem; margin-bottom: 1rem; }
+    .two-cols { display: grid; gap: 1.5rem; }
+    @media (min-width: 900px) { .two-cols { grid-template-columns: 1.4fr 1.1fr; } }
+    .media-frame { aspect-ratio: 16/9; background: #000; border-radius: .75rem; overflow: hidden; }
+    .media-frame iframe { width: 100%; height: 100%; border: 0; }
+    #map-campi { height: 300px; border-radius: .75rem; margin-top: 1rem; }
+    .gallery-grid { display: grid; gap: .75rem; }
+    @media (min-width: 900px) { .gallery-grid { grid-template-columns: repeat(4,1fr); } }
+    .gallery-grid img { width: 100%; height: 100%; object-fit: cover; border-radius: .75rem; }
   </style>
 </head>
 
 <body>
-  <header class="page-header">
-    <div class="container">
-      <nav class="breadcrumb">
-        <a href="../index.html">Home</a> /
-        <a href="../luoghi/index.html">Luoghi</a> /
-        <span>Campi Diomedei – Villaggio neolitico</span>
-      </nav>
-      <div class="luogo-hero">
-        <div>
-          <span class="badge-categoria">Storia · Archeologia</span>
-          <h1>Villaggio neolitico dei Campi Diomedei</h1>
-          <p class="lead">
-            Un villaggio trincerato di 8.000 anni fa, nascosto sotto l’ex ippodromo
-            e oggi restituito alla città come grande parco archeologico urbano.
-          </p>
-          <p>
-            Qui, nella porzione orientale di Foggia, una comunità agropastorale
-            del VI millennio a.C. scavò fossati concentrici nella crosta calcarea,
-            costruì capanne e aree di lavoro, coltivò cereali e allevò animali:
-            è una delle prime “comunità economiche” stabili del Tavoliere.
-          </p>
-        </div>
-        <div class="hero-image">
-          <img
-            src="../assets/img/campi-diomedei-park.jpg"
-            alt="Veduta aerea del Parco Archeologico dei Campi Diomedei"
-          />
-        </div>
+
+<header class="page-header">
+  <div class="container">
+    <nav class="breadcrumb">
+      <a href="../index.html">Home</a> / <a href="../luoghi/index.html">Luoghi</a> / Campi Diomedei
+    </nav>
+
+    <div class="luogo-hero">
+      <div>
+        <span class="badge-categoria">Storia · Archeologia</span>
+        <h1>Villaggio neolitico dei Campi Diomedei</h1>
+
+        <p class="lead">
+          Un villaggio trincerato di 8.000 anni fa, nascosto sotto l’ex ippodromo
+          e oggi restituito alla città come parco archeologico urbano.
+        </p>
+
+        <p>
+          Qui, nella zona orientale di Foggia, una comunità del VI millennio a.C.
+          scavò fossati concentrici nella crosta calcarea, costruì capanne e
+          coltivò cereali: è una delle prime comunità stabili del Tavoliere.
+        </p>
+      </div>
+
+      <div class="hero-image">
+        <img src="../assets/img/campi-diomedei-park.jpg" alt="Parco Archeologico dei Campi Diomedei" />
       </div>
     </div>
-  </header>
+  </div>
+</header>
 
-  <main class="page-main">
-    <div class="container">
+<main class="page-main">
+  <div class="container">
 
-      <!-- Sezione informazioni a tendina -->
-      <section aria-labelledby="info-luogo">
-        <h2 id="info-luogo" class="section-title">Cos’è e perché è importante</h2>
+    <section>
+      <h2 class="section-title">Cos’è e perché è importante</h2>
 
-        <details open>
-          <summary>Inquadramento storico e cronologico</summary>
-          <p>
-            Il sito dei Campi Diomedei, noto in letteratura come ex Ippodromo,
-            appartiene alla facies di <strong>Masseria La Quercia</strong> del
-            Neolitico antico evoluto (circa 5.800–5.600 a.C.). Si inserisce
-            nell’eccezionale sistema dei villaggi trincerati del Tavoliere, resi
-            noti dalle foto aeree della RAF e dagli studi di John Bradford.
-          </p>
-          <p>
-            A differenza dei grandi villaggi isolati in campagna, come Passo di Corvo,
-            questo sito oggi è <strong>completamente inglobato nella città</strong>:
-            è un raro caso di archeologia preistorica urbana, in cui stratigrafia e
-            pianificazione contemporanea si intrecciano.
-          </p>
-        </details>
-
-        <details>
-          <summary>Architettura del villaggio trincerato</summary>
-          <p>
-            Gli scavi tra 1998 e 2019 hanno messo in luce un <strong>compound a forma di C</strong>
-            del diametro di circa 20 metri, con fossato profondo fino a 2 metri scavato
-            nella crosta calcarea, e due grandi fossati concentrici che delimitano il perimetro
-            del villaggio.
-          </p>
-          <p>
-            All’interno e all’esterno del compound sono stati riconosciuti:
-          </p>
-          <ul>
-            <li>un edificio absidato con pavimento in battuto e fondazioni in ciottoli;</li>
-            <li>acciottolati e marciapiedi che consolidano le sponde dei fossati;</li>
-            <li>aree di combustione per la preparazione del cibo.</li>
-          </ul>
-          <p>
-            I fossati non avevano solo funzione difensiva: servivano anche per gestire
-            le acque meteoriche, contenere gli animali e definire simbolicamente il
-            confine tra spazio “domestico” e spazio “selvaggio”.
-          </p>
-        </details>
-
-        <details>
-          <summary>Cultura materiale, economia e sepolture</summary>
-          <p>
-            La ceramica appartiene per lo più allo stile di Masseria La Quercia:
-            vasi chiari, decorati a bande e motivi geometrici dipinti, con presenze
-            più rare di elementi Passo di Corvo e di ceramica impressa evoluta.
-          </p>
-          <p>
-            Le analisi archeobotaniche hanno restituito cereali come farro,
-            orzo e un’inaspettata abbondanza di <strong>avena</strong>, forse
-            coltivata o selezionata come foraggio, oltre a specie spontanee commestibili
-            come il <em>Chenopodium album</em>. L’economia era basata su agricoltura
-            e allevamento di ovicaprini, bovini e suini.
-          </p>
-          <p>
-            Nel riempimento di uno dei fossati è stata trovata una sepoltura più tarda
-            (V millennio a.C., stile Serra d’Alto), segno che il luogo è rimasto
-            significativo anche secoli dopo la fine dell’abitato.
-          </p>
-        </details>
-
-        <details>
-          <summary>Dal cantiere di scavo al parco archeologico urbano</summary>
-          <p>
-            Con il progetto del <strong>Parco Urbano e Archeologico Campi Diomedei</strong>,
-            uno dei più estesi parchi archeologici urbani del Mezzogiorno, l’area è
-            stata trasformata in spazio pubblico: percorsi pedonali ricalcano in parte
-            le piste dell’ippodromo e in parte il disegno dei fossati neolitici, mentre
-            passerelle leggere consentono di osservare il compound scavato senza
-            danneggiarlo.
-          </p>
-          <p>
-            Il parco è oggi un “laboratorio a cielo aperto” dove ricerca,
-            tutela e uso quotidiano del verde urbano convivono.
-          </p>
-        </details>
-      </section>
-
-      <!-- Sezione video + 3D -->
-      <section aria-labelledby="guarda-esplora">
-        <h2 id="guarda-esplora" class="section-title">Guarda e esplora</h2>
-        <div class="two-cols">
-          <div>
-            <h3>Video dal parco e dagli scavi</h3>
-            <div class="media-grid">
-              <!-- Video 1 – short YouTube -->
-              <div class="media-frame">
-                <iframe
-                  src="https://www.youtube.com/embed/jQPxf3NOF0w"
-                  title="Campi Diomedei - short"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowfullscreen
-                ></iframe>
-              </div>
-
-              <!-- Video 2 – visita / approfondimento -->
-              <div class="media-frame">
-                <iframe
-                  src="https://www.youtube.com/embed/L2ZAAvXPlrs?si=OonKuPKWpmN6GLfG"
-                  title="Villaggio neolitico dei Campi Diomedei"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  referrerpolicy="strict-origin-when-cross-origin"
-                  allowfullscreen
-                ></iframe>
-              </div>
-            </div>
-            <p style="margin-top:0.75rem;">
-              I video aiutano a leggere le strutture sul terreno: le linee curve nel prato
-              corrispondono ai fossati scavati nel Neolitico; le aree recintate mostrano
-              il compound e le zone di scavo principale.
-            </p>
-          </div>
-
-          <div>
-            <h3>Ricostruzione 3D del villaggio</h3>
-            <div class="media-frame">
-              <!-- Embed Sketchfab -->
-              <iframe title="Villaggio Campi Diomedei - Foggia"
-                      frameborder="0"
-                      allowfullscreen
-                      mozallowfullscreen="true"
-                      webkitallowfullscreen="true"
-                      allow="autoplay; fullscreen; xr-spatial-tracking"
-                      xr-spatial-tracking
-                      execution-while-out-of-viewport
-                      execution-while-not-rendered
-                      web-share
-                      src="https://sketchfab.com/models/0a306cc6e14647f1960cd30c82fe0b2c/embed">
-              </iframe>
-            </div>
-            <p style="margin-top:0.75rem;">
-              Nella ricostruzione si riconoscono la capanna principale, le strutture
-              accessorie e l’anello del fossato: è un modello utile per confrontare ciò
-              che si vede oggi nel parco con l’abitato com’era 8.000 anni fa.
-            </p>
-            <p style="font-size:0.8rem; margin-top:0.5rem;">
-              Modello 3D: <a href="https://sketchfab.com/3d-models/villaggio-campi-diomedei-foggia-0a306cc6e14647f1960cd30c82fe0b2c" target="_blank" rel="noopener">
-              Villaggio Campi Diomedei – Foggia</a> (Sketchfab).
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <!-- Galleria immagini -->
-      <section aria-labelledby="gallery-campi">
-        <h2 id="gallery-campi" class="section-title">Galleria</h2>
-        <div class="gallery-grid">
-          <figure>
-            <img src="../assets/img/campi-diomedei-park.jpg"
-                 alt="Vista aerea del parco Campi Diomedei" />
-            <figcaption>Il parco urbano visto dall’alto: il disegno del villaggio affiora nel verde.</figcaption>
-          </figure>
-          <figure>
-            <img src="../assets/img/campi-diomedei-scavo-panorama.jpg"
-                 alt="Panoramica degli scavi archeologici ai Campi Diomedei" />
-            <figcaption>Area di scavo con visitatori lungo il percorso protetto.</figcaption>
-          </figure>
-          <figure>
-            <img src="../assets/img/campi-diomedei-compound.jpg"
-                 alt="Il fossato a C del compound neolitico" />
-            <figcaption>Il compound a C, cuore dell’unità abitativa neolitica.</figcaption>
-          </figure>
-          <figure>
-            <img src="../assets/img/campi-diomedei-ricostruzione.jpg"
-                 alt="Ricostruzione di capanna e recinto neolitico"
-            />
-            <figcaption>Ricostruzione didattica di una capanna con recinto e animali.</figcaption>
-          </figure>
-        </div>
-      </section>
-
-      <!-- Mappa e indicazioni pratiche -->
-      <section aria-labelledby="mappa-campi">
-        <h2 id="mappa-campi" class="section-title">Come arrivarci</h2>
+      <details open>
+        <summary>Inquadramento cronologico</summary>
         <p>
-          Il parco archeologico dei Campi Diomedei si trova nella zona est di Foggia,
-          nell’area del vecchio ippodromo, oggi trasformata in grande spazio verde
-          pubblico. In auto o pullman è facilmente raggiungibile dal centro; a piedi
-          rientra in un percorso di circa 30 minuti dalla zona di Piazza del Lago.
+          Il sito appartiene al Neolitico antico evoluto (5800–5600 a.C.),
+          facies di Masseria La Quercia. È un villaggio trincerato con fossati
+          curvilinei, parte dell’eccezionale sistema insediativo neolitico del Tavoliere.
         </p>
-        <div id="map-campi" role="region" aria-label="Mappa del Parco Campi Diomedei"></div>
-        <p style="margin-top:0.75rem;">
-          <a
-            href="https://www.google.com/maps/search/?api=1&query=41.461833,15.552481"
-            target="_blank"
-            rel="noopener"
-          >
-            Apri in Google Maps
-          </a>
-        </p>
-      </section>
+      </details>
 
-      <!-- Curiosità / Tips + chatbot -->
-      <section aria-labelledby="curiosita-campi">
-        <h2 id="curiosita-campi" class="section-title">Curiosità e suggerimenti</h2>
-        <div class="tips-box">
-          <ul>
-            <li>
-              Il parco è uno dei rari esempi in Italia in cui un villaggio neolitico è
-              pienamente visibile dentro la città contemporanea: un “palinsesto”
-              dove si leggono insieme tracce preistoriche, ippodromo novecentesco
-              e progetto paesaggistico attuale.
-            </li>
-            <li>
-              Il disegno dei fossati è più leggibile dall’alto: per questo molte
-              foto e video del sito sono realizzati con droni, in continuità ideale
-              con le storiche riprese aeree della RAF che hanno rivelato i villaggi
-              del Tavoliere.
-            </li>
-            <li>
-              Per visite scolastiche è utile preparare prima una semplice timeline:
-              Neolitico antico (Masseria La Quercia) → Neolitico medio (Serra d’Alto)
-              → progetto del parco nel XXI secolo.
-            </li>
-          </ul>
+      <details>
+        <summary>Struttura del villaggio</summary>
+        <p>
+          Gli scavi hanno portato alla luce un compound a forma di C, con fossato
+          profondo fino a 2 metri, edifici absidati, acciottolati e aree di combustione.
+        </p>
+      </details>
+
+      <details>
+        <summary>Economia e cultura materiale</summary>
+        <p>
+          La comunità coltivava farro, orzo e avena; allevava ovicaprini e bovini.
+          La ceramica è decorata a bande, tipica di Masseria La Quercia.
+        </p>
+      </details>
+    </section>
+
+    <section>
+      <h2 class="section-title">Guarda e esplora</h2>
+
+      <div class="two-cols">
+        <div>
+          <h3>Video</h3>
+
+          <div class="media-frame">
+            <iframe src="https://www.youtube.com/embed/jQPxf3NOF0w" allowfullscreen></iframe>
+          </div>
+
+          <div class="media-frame" style="margin-top:1rem;">
+            <iframe src="https://www.youtube.com/embed/L2ZAAvXPlrs" allowfullscreen></iframe>
+          </div>
         </div>
 
-        <div style="margin-top:1.25rem;">
-          <p>
-            Vuoi fare domande al cicerone virtuale su questo luogo?
-          </p>
-          <a href="../guida-ai.html#campi-diomedei" class="chatbot-btn">
-            <span class="icon">💬</span>
-            <span>Chiedi alla guida AI sui Campi Diomedei</span>
-          </a>
+        <div>
+          <h3>Modello 3D</h3>
+          <div class="media-frame">
+            <iframe
+              src="https://sketchfab.com/models/0a306cc6e14647f1960cd30c82fe0b2c/embed"
+              allowfullscreen>
+            </iframe>
+          </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-    </div>
-  </main>
+    <section>
+      <h2 class="section-title">Galleria</h2>
 
-  <script>
-    // Mini-mappa Leaflet centrata sui Campi Diomedei
-    const lat = 41.461833;
-    const lon = 15.552481;
+      <div class="gallery-grid">
+        <img src="../assets/img/campi-diomedei-park.jpg" alt="">
+        <img src="../assets/img/campi-diomedei-scavo-panorama.jpg" alt="">
+        <img src="../assets/img/campi-diomedei-compound.jpg" alt="">
+        <img src="../assets/img/campi-diomedei-ricostruzione.jpg" alt="">
+      </div>
+    </section>
 
-    const map = L.map("map-campi").setView([lat, lon], 15);
+    <section>
+      <h2 class="section-title">Come arrivarci</h2>
 
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      maxZoom: 19,
-      attribution: '&copy; OpenStreetMap contributors'
-    }).addTo(map);
+      <p>
+        Il sito si trova all’interno del Parco Urbano “Campi Diomedei”, nell’area
+        dell’ex ippodromo di Foggia.
+      </p>
 
-    L.marker([lat, lon])
-      .addTo(map)
-      .bindPopup("Parco Archeologico e Urbano Campi Diomedei")
-      .openPopup();
-  </script>
+      <div id="map-campi"></div>
+
+      <p style="margin-top:1rem;">
+        <a href="https://www.google.com/maps/search/?api=1&query=41.45801,15.56369" target="_blank">
+          Apri in Google Maps
+        </a>
+      </p>
+    </section>
+
+  </div>
+</main>
+
+<script>
+  // MAPPA CON LE NUOVE COORDINATE
+  const lat = 41.45801;
+  const lon = 15.56369;
+
+  const map = L.map("map-campi").setView([lat, lon], 16);
+
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom: 19
+  }).addTo(map);
+
+  L.marker([lat, lon]).addTo(map).bindPopup("Parco Archeologico Campi Diomedei");
+</script>
+
 </body>
 </html>
